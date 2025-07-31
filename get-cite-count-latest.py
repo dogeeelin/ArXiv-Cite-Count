@@ -63,14 +63,17 @@ def get_citation_count(keyword: str) -> int:
         
         # 使用正则表达式提取引用次数
         match = re.search(r'被引用次数：(\d+)</a>', html_content)
+        arxiv = re.search(r'arxiv.org/abs/(\d+.\d+)', html_content)
         
         if match:
             citation_count = int(match.group(1))
             print(f"找到引用次数: {citation_count}")
-            return citation_count
-        else:
-            print("未找到引用次数信息")
-            return 0
+            # return citation_count
+        if arxiv:
+            arxiv_id = arxiv.group(1)
+            print(f"找到arXiv ID: http://arxiv.org/abs/{arxiv_id}")
+            # return 0
+
             
     except Exception as e:
         print(f"发生错误: {e}")
@@ -82,6 +85,5 @@ def get_citation_count(keyword: str) -> int:
 # 使用示例
 if __name__ == "__main__":
     keyword = input("请输入要查询的关键词: ")
-
-    count = get_citation_count(keyword)
-    print(f"'{keyword}' 的引用次数: {count}\n")    
+    print(get_citation_count(keyword))
+    # print(f"'{keyword}' 的引用次数: {count}\n")    
